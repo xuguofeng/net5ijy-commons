@@ -1,12 +1,11 @@
 package org.net5ijy.commons.util;
 
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 字符串工具类
+ * 字符串、时间工具类
  * 
  * @author 创建人：xuguofeng
  * @version 创建于：2018年7月3日 上午11:48:36
@@ -40,7 +39,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * 验证字符串是否为null或长度为0，此方法不会对字符串进行trim操作
+	 * 验证字符串是否为null或去除前后空白后长度为0
 	 * 
 	 * @author 创建人：xuguofeng
 	 * @version 创建于：2018年5月19日 下午1:03:03
@@ -53,30 +52,14 @@ public class StringUtil {
 	}
 
 	/**
-	 * 获取UTF-8编码方式的字符串
-	 * 
-	 * @author 创建人：xuguofeng
-	 * @version 创建于：2018年6月28日 下午12:56:45
-	 * @param text
-	 * @return
-	 */
-	public static String getUtf8Text(String text) {
-		try {
-			return new String(text.getBytes("iso-8859-1"), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-		}
-		return text;
-	}
-
-	/**
-	 * 把字符串转为Integer
+	 * 把字符串转为Integer, 当转型失败时返回defaultVal
 	 * 
 	 * @author 创建人：xuguofeng
 	 * @version 创建于：2018年7月4日 上午10:44:06
 	 * @param str
 	 *            - 字符串
 	 * @param defaultVal
-	 *            - 默认值，在数值转换失败时使用
+	 *            - 默认值，数值转换失败时返回
 	 * @return
 	 */
 	public static Integer getInteger(String str, Integer defaultVal) {
@@ -85,6 +68,18 @@ public class StringUtil {
 		} catch (NumberFormatException e) {
 			return defaultVal;
 		}
+	}
+
+	/**
+	 * 把字符串转为Integer, 当转型失败时返回0
+	 * 
+	 * @author 创建人：administrator
+	 * @version 创建于：2018年11月16日 下午1:11:10
+	 * @param str
+	 * @return
+	 */
+	public static Integer getInteger(String str) {
+		return getInteger(str, 0);
 	}
 
 	/**
@@ -110,11 +105,11 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String formatDatetime(Date date) {
-		return new SimpleDateFormat(DEFAULT_DATETIME_FORMAT).format(date);
+		return formatDatetime(date, DEFAULT_DATETIME_FORMAT);
 	}
 
 	/**
-	 * 格式化日期，yyyy-MM-dd
+	 * 使用yyyy-MM-dd格式格式化日期
 	 * 
 	 * @author 创建人：xuguofeng
 	 * @version 创建于：2018年7月5日 上午8:29:28
@@ -126,7 +121,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * 格式化时间，HH:mm:ss
+	 * 使用HH:mm:ss格式格式化时间
 	 * 
 	 * @author 创建人：xuguofeng
 	 * @version 创建于：2018年7月5日 上午8:30:12
@@ -155,7 +150,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * 根据默认格式把字符串转为时间：yyyy-MM-dd HH:mm:ss
+	 * 根据yyyy-MM-dd HH:mm:ss格式把字符串转为时间
 	 * 
 	 * @author 创建人：xuguofeng
 	 * @version 创建于：2018年10月13日 上午9:02:37
@@ -167,7 +162,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * 根据默认格式把字符串转为日期：yyyy-MM-dd
+	 * 根据yyyy-MM-dd格式把字符串转为日期
 	 * 
 	 * @author 创建人：xuguofeng
 	 * @version 创建于：2018年10月13日 上午9:02:37

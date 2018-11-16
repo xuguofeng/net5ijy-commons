@@ -6,11 +6,11 @@ import java.util.Map;
 public class ResponseMessage {
 
 	public static final String MESSAGE_SUCCESS = "操作成功";
+
 	public static final String MESSAGE_ERROR = "操作失败";
 
-	public static final String EXCEPTION_ATTR_KEY = "exception";
-
 	public static final int MESSAGE_SUCCESS_CODE = 0;
+
 	public static final int MESSAGE_ERROR_CODE = 99;
 
 	private int code;

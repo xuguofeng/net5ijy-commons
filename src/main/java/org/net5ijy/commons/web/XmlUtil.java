@@ -1,7 +1,6 @@
 package org.net5ijy.commons.web;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -10,13 +9,11 @@ import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  * XML工具类
@@ -91,13 +88,9 @@ public class XmlUtil {
 				String nodeVal = node.getNodeValue();
 				xmlMap.put(nodeName, nodeVal);
 			}
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			return xmlMap;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		return xmlMap;
 	}
 }
