@@ -1,5 +1,6 @@
 package org.net5ijy.commons.web;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +14,9 @@ import java.util.List;
  * @param <T>
  *            - rows集合中保存的数据的类型
  */
-public class PageResult<T> {
+public class PageResult<T> implements Serializable {
+
+	private static final long serialVersionUID = 7907303622117418474L;
 
 	private List<T> rows;
 
@@ -28,6 +31,10 @@ public class PageResult<T> {
 	private int startPage = 1;
 
 	private int endPage = 1;
+
+	public PageResult() {
+		super();
+	}
 
 	/**
 	 * 创建一个分页结果<br />
@@ -107,6 +114,10 @@ public class PageResult<T> {
 		}
 	}
 
+	public void setRows(List<T> rows) {
+		this.rows = rows;
+	}
+
 	/**
 	 * 获取结果数据集合<br />
 	 * <br />
@@ -115,6 +126,10 @@ public class PageResult<T> {
 	 */
 	public List<T> getRows() {
 		return rows;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
 	}
 
 	/**
@@ -127,6 +142,10 @@ public class PageResult<T> {
 		return pageNum;
 	}
 
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
 	/**
 	 * 获取每页数据量<br />
 	 * <br />
@@ -135,6 +154,10 @@ public class PageResult<T> {
 	 */
 	public int getPageSize() {
 		return pageSize;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
 	}
 
 	/**
@@ -147,6 +170,10 @@ public class PageResult<T> {
 		return total;
 	}
 
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
+	}
+
 	/**
 	 * 获取总页数<br />
 	 * <br />
@@ -157,6 +184,10 @@ public class PageResult<T> {
 		return pageCount;
 	}
 
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+
 	/**
 	 * 获取显示的起始页<br />
 	 * <br />
@@ -165,6 +196,10 @@ public class PageResult<T> {
 	 */
 	public int getStartPage() {
 		return startPage;
+	}
+
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
 	}
 
 	/**

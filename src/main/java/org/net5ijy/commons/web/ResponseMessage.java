@@ -1,9 +1,12 @@
 package org.net5ijy.commons.web;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResponseMessage {
+public class ResponseMessage implements Serializable {
+
+	private static final long serialVersionUID = -8990791130742368169L;
 
 	public static final String MESSAGE_SUCCESS = "操作成功";
 
