@@ -1,4 +1,4 @@
-package org.net5ijy.commons.web;
+package org.net5ijy.commons.web.response;
 
 import java.io.Serializable;
 import java.util.HashMap;

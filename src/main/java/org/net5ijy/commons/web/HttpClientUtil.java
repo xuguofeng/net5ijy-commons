@@ -1,7 +1,10 @@
 package org.net5ijy.commons.web;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +30,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.net5ijy.commons.util.StringUtil;
+import org.net5ijy.commons.web.response.FileResponseHolder;
+import org.net5ijy.commons.web.response.HtmlResponseHolder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -541,6 +546,339 @@ public class HttpClientUtil {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * 使用get方式下载文件
+	 * 
+	 * @author 创建人：xuguofeng
+	 * @version 创建于：2019年3月18日
+	 * @param url
+	 *            - 请求地址
+	 * @param filePath
+	 *            - 文件保存路径
+	 * @param headers
+	 *            - 请求头
+	 * @param params
+	 *            - 请求参数
+	 * @return
+	 */
+	public static FileResponseHolder getFile(String url, String filePath,
+			Map<String, String> headers, Map<String, String> params) {
+
+		// 获取HttpClient
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		// 定义HttpResponse
+		CloseableHttpResponse response = null;
+
+		// 封装响应
+		FileResponseHolder responseHolder = new FileResponseHolder();
+
+		try {
+
+			// 请求参数
+			String paramStr = "";
+
+			if (params != null && !params.isEmpty()) {
+
+				paramStr = "?";
+				if (url.indexOf("?") != -1) {
+					paramStr = "&";
+				}
+
+				List<NameValuePair> paramsList = new ArrayList<NameValuePair>();
+
+				Set<Entry<String, String>> es = params.entrySet();
+
+				for (Iterator<Entry<String, String>> i = es.iterator(); i
+						.hasNext();) {
+					Entry<String, String> e = i.next();
+					paramsList.add(new BasicNameValuePair(e.getKey(), e
+							.getValue()));
+				}
+				paramStr = paramStr
+						+ EntityUtils.toString(new UrlEncodedFormEntity(
+								paramsList, "UTF-8"));
+			}
+
+			// 创建httpget
+			HttpGet httpget = new HttpGet(url + paramStr);
+
+			// 设置请求头
+			Set<String> headerNames = headers.keySet();
+
+			for (String headerName : headerNames) {
+				httpget.setHeader(headerName, headers.get(headerName));
+			}
+
+			// 发送请求并获取响应
+			response = httpclient.execute(httpget);
+
+			// 获取响应状态码
+			responseHolder.setStatusCode(response.getStatusLine()
+					.getStatusCode());
+
+			// 获取响应头
+			responseHolder.setHeaders(response.getAllHeaders());
+
+			// 获取响应实体
+			HttpEntity entity = response.getEntity();
+
+			// 获取响应content-type
+			if (entity.getContentType() != null) {
+				responseHolder.setContentType(entity.getContentType()
+						.getValue());
+			}
+
+			File file = new File(filePath);
+			responseHolder.setFile(file);
+
+			if (entity != null) {
+
+				// 响应内容
+				InputStream in = entity.getContent();
+
+				OutputStream out = new FileOutputStream(file);
+
+				byte[] buf = new byte[1024 * 5];
+
+				int len = in.read(buf);
+
+				while (len > -1) {
+					out.write(buf, 0, len);
+
+					len = in.read(buf);
+				}
+
+				in.close();
+				out.close();
+			}
+
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (httpclient != null) {
+				try {
+					httpclient.close();
+				} catch (IOException e) {
+				}
+			}
+			if (response != null) {
+				try {
+					response.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+
+		return responseHolder;
+	}
+
+	/**
+	 * 使用get方式获取网页
+	 * 
+	 * @author 创建人：xuguofeng
+	 * @version 创建于：2019年3月18日
+	 * @param url
+	 *            - 请求地址
+	 * @param headers
+	 *            - 请求头
+	 * @param params
+	 *            - 请求参数
+	 * @return
+	 */
+	public static HtmlResponseHolder getHtml(String url,
+			Map<String, String> headers, Map<String, String> params) {
+
+		// 获取HttpClient
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		// 定义HttpResponse
+		CloseableHttpResponse response = null;
+
+		// 封装响应
+		HtmlResponseHolder responseHolder = new HtmlResponseHolder();
+
+		try {
+
+			// 请求参数
+			String paramStr = "";
+
+			if (params != null && !params.isEmpty()) {
+
+				paramStr = "?";
+				if (url.indexOf("?") != -1) {
+					paramStr = "&";
+				}
+
+				List<NameValuePair> paramsList = new ArrayList<NameValuePair>();
+
+				Set<Entry<String, String>> es = params.entrySet();
+
+				for (Iterator<Entry<String, String>> i = es.iterator(); i
+						.hasNext();) {
+					Entry<String, String> e = i.next();
+					paramsList.add(new BasicNameValuePair(e.getKey(), e
+							.getValue()));
+				}
+				paramStr = paramStr
+						+ EntityUtils.toString(new UrlEncodedFormEntity(
+								paramsList, "UTF-8"));
+			}
+
+			// 创建httpget
+			HttpGet httpget = new HttpGet(url + paramStr);
+
+			// 设置请求头
+			Set<String> headerNames = headers.keySet();
+
+			for (String headerName : headerNames) {
+				httpget.setHeader(headerName, headers.get(headerName));
+			}
+
+			// 发送请求并获取响应
+			response = httpclient.execute(httpget);
+
+			// 获取响应状态码
+			responseHolder.setStatusCode(response.getStatusLine()
+					.getStatusCode());
+
+			// 获取响应头
+			responseHolder.setHeaders(response.getAllHeaders());
+
+			// 获取响应实体
+			HttpEntity entity = response.getEntity();
+
+			// 获取响应content-type
+			responseHolder.setContentType(entity.getContentType().getValue());
+
+			if (entity != null) {
+
+				// 响应内容
+				String content = EntityUtils.toString(entity);
+
+				responseHolder.setContent(content);
+			}
+
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (httpclient != null) {
+				try {
+					httpclient.close();
+				} catch (IOException e) {
+				}
+			}
+			if (response != null) {
+				try {
+					response.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+		return responseHolder;
+	}
+
+	/**
+	 * 使用post方式获取网页，可以用于提交表单
+	 * 
+	 * @author 创建人：xuguofeng
+	 * @version 创建于：2019年3月18日
+	 * @param url
+	 *            - 请求地址
+	 * @param headers
+	 *            - 请求头
+	 * @param params
+	 *            - 请求参数
+	 * @return
+	 */
+	public static HtmlResponseHolder postHtml(String url,
+			Map<String, String> headers, Map<String, String> params) {
+
+		// 获取HttpClient
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		// 定义HttpResponse
+		CloseableHttpResponse response = null;
+
+		// 封装响应
+		HtmlResponseHolder responseHolder = new HtmlResponseHolder();
+
+		try {
+
+			// 创建httpPost
+			HttpPost httpPost = new HttpPost(url);
+
+			// 请求参数
+			if (params != null && !params.isEmpty()) {
+
+				List<NameValuePair> paramsList = new ArrayList<NameValuePair>();
+
+				Set<Entry<String, String>> es = params.entrySet();
+
+				for (Iterator<Entry<String, String>> i = es.iterator(); i
+						.hasNext();) {
+					Entry<String, String> e = i.next();
+					paramsList.add(new BasicNameValuePair(e.getKey(), e
+							.getValue()));
+				}
+				HttpEntity entity = new UrlEncodedFormEntity(paramsList,
+						"UTF-8");
+				// 设置参数
+				httpPost.setEntity(entity);
+			}
+
+			// 设置请求头
+			Set<String> headerNames = headers.keySet();
+
+			for (String headerName : headerNames) {
+				httpPost.setHeader(headerName, headers.get(headerName));
+			}
+
+			// 发送请求并获取响应
+			response = httpclient.execute(httpPost);
+
+			// 获取响应状态码
+			responseHolder.setStatusCode(response.getStatusLine()
+					.getStatusCode());
+
+			// 获取响应头
+			responseHolder.setHeaders(response.getAllHeaders());
+
+			// 获取响应实体
+			HttpEntity entity = response.getEntity();
+
+			// 获取响应content-type
+			responseHolder.setContentType(entity.getContentType().getValue());
+
+			if (entity != null) {
+
+				// 响应内容
+				String content = EntityUtils.toString(entity);
+
+				responseHolder.setContent(content);
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (httpclient != null) {
+				try {
+					httpclient.close();
+				} catch (IOException e) {
+				}
+			}
+			if (response != null) {
+				try {
+					response.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+		return responseHolder;
 	}
 
 	public static String appendUrlArgument(String url, String arg, String val) {
