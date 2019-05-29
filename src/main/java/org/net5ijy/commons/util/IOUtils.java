@@ -31,12 +31,19 @@ public class IOUtils {
 			in = IOUtils.class.getClassLoader().getResourceAsStream(filename);
 
 			if (in == null) {
-				in = new FileInputStream(System.getProperty("user.dir") + File.separator + "config"
-						+ File.separator + filename);
+				in = new FileInputStream(System.getProperty("user.dir")
+						+ File.separator + "config" + File.separator + filename);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
 		}
 
 		return in;

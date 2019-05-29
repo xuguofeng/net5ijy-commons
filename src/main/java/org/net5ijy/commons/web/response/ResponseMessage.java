@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.Data;
+
+@Data
 public class ResponseMessage implements Serializable {
 
-	private static final long serialVersionUID = -8990791130742368169L;
+	public static final long serialVersionUID = -8990791130742368169L;
 
 	public static final String MESSAGE_SUCCESS = "操作成功";
 
@@ -22,6 +25,16 @@ public class ResponseMessage implements Serializable {
 
 	private Map<String, Object> data = new HashMap<String, Object>();
 
+	public ResponseMessage() {
+		super();
+	}
+
+	public ResponseMessage(int code, String message) {
+		this();
+		this.code = code;
+		this.message = message;
+	}
+
 	public static ResponseMessage success() {
 		return new ResponseMessage(MESSAGE_SUCCESS_CODE, MESSAGE_SUCCESS);
 	}
@@ -30,8 +43,8 @@ public class ResponseMessage implements Serializable {
 		return new ResponseMessage(MESSAGE_ERROR_CODE, MESSAGE_ERROR);
 	}
 
-	public ResponseMessage addAttribute(String name, Object val) {
-		this.data.put(name, val);
+	public ResponseMessage code(int code) {
+		this.code = code;
 		return this;
 	}
 
@@ -40,43 +53,8 @@ public class ResponseMessage implements Serializable {
 		return this;
 	}
 
-	public ResponseMessage() {
-		super();
-	}
-
-	public ResponseMessage(int code, String message) {
-		super();
-		this.code = code;
-		this.message = message;
-	}
-
-	public int getCode() {
-		return code;
-	}
-
-	public void setCode(int code) {
-		this.code = code;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public Map<String, Object> getData() {
-		return data;
-	}
-
-	public void setData(Map<String, Object> data) {
-		this.data = data;
-	}
-
-	@Override
-	public String toString() {
-		return "ResponseMessage [code=" + code + ", message=" + message
-				+ ", data=" + data + "]";
+	public ResponseMessage addAttribute(String name, Object val) {
+		this.data.put(name, val);
+		return this;
 	}
 }

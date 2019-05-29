@@ -1,4 +1,4 @@
-package org.net5ijy.commons.web;
+package org.net5ijy.commons.web.util;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;

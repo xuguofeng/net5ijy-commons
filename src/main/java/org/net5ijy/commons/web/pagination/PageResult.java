@@ -1,7 +1,9 @@
-package org.net5ijy.commons.web;
+package org.net5ijy.commons.web.pagination;
 
 import java.io.Serializable;
 import java.util.List;
+
+import lombok.Data;
 
 /**
  * 封装分页结果集和分页信息，包括：<br />
@@ -14,9 +16,10 @@ import java.util.List;
  * @param <T>
  *            - rows集合中保存的数据的类型
  */
+@Data
 public class PageResult<T> implements Serializable {
 
-	private static final long serialVersionUID = 7907303622117418474L;
+	public static final long serialVersionUID = 7907303622117418474L;
 
 	private List<T> rows;
 
@@ -53,6 +56,8 @@ public class PageResult<T> implements Serializable {
 	 */
 	public PageResult(List<T> rows, int pageNum, int pageSize, int total,
 			int displayCount) {
+
+		this();
 
 		// 如果传入的数据集合为null，抛出一个异常
 		if (rows == null) {
@@ -112,103 +117,5 @@ public class PageResult<T> implements Serializable {
 				this.startPage = this.pageCount - displayCount + 1;
 			}
 		}
-	}
-
-	public void setRows(List<T> rows) {
-		this.rows = rows;
-	}
-
-	/**
-	 * 获取结果数据集合<br />
-	 * <br />
-	 * 
-	 * @return
-	 */
-	public List<T> getRows() {
-		return rows;
-	}
-
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
-	}
-
-	/**
-	 * 获取当前页码<br />
-	 * <br />
-	 * 
-	 * @return
-	 */
-	public int getPageNum() {
-		return pageNum;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	/**
-	 * 获取每页数据量<br />
-	 * <br />
-	 * 
-	 * @return
-	 */
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setTotal(int total) {
-		this.total = total;
-	}
-
-	/**
-	 * 获取总数据量<br />
-	 * <br />
-	 * 
-	 * @return
-	 */
-	public int getTotal() {
-		return total;
-	}
-
-	public void setPageCount(int pageCount) {
-		this.pageCount = pageCount;
-	}
-
-	/**
-	 * 获取总页数<br />
-	 * <br />
-	 * 
-	 * @return
-	 */
-	public int getPageCount() {
-		return pageCount;
-	}
-
-	public void setStartPage(int startPage) {
-		this.startPage = startPage;
-	}
-
-	/**
-	 * 获取显示的起始页<br />
-	 * <br />
-	 * 
-	 * @return
-	 */
-	public int getStartPage() {
-		return startPage;
-	}
-
-	public void setEndPage(int endPage) {
-		this.endPage = endPage;
-	}
-
-	/**
-	 * 获取显示的结束页<br />
-	 * <br />
-	 * 
-	 * @return
-	 */
-	public int getEndPage() {
-		return endPage;
 	}
 }
