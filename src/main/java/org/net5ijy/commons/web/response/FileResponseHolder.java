@@ -3,8 +3,13 @@ package org.net5ijy.commons.web.response;
 import java.io.File;
 import java.util.Arrays;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.apache.http.Header;
 
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class FileResponseHolder extends ResponseHolder {
 
 	private File file;
@@ -13,17 +18,8 @@ public class FileResponseHolder extends ResponseHolder {
 		super();
 	}
 
-	public FileResponseHolder(int statusCode, String contentType,
-			Header[] headers, File file) {
+	public FileResponseHolder(int statusCode, String contentType, Header[] headers, File file) {
 		super(statusCode, contentType, headers);
-		this.file = file;
-	}
-
-	public File getFile() {
-		return file;
-	}
-
-	public void setFile(File file) {
 		this.file = file;
 	}
 

@@ -3,8 +3,11 @@ package org.net5ijy.commons.web.response;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.Data;
+
 import org.apache.http.Header;
 
+@Data
 public class ResponseHolder {
 
 	private int statusCode;
@@ -26,24 +29,8 @@ public class ResponseHolder {
 		this.headers = headers;
 	}
 
-	public int getStatusCode() {
-		return statusCode;
-	}
-
-	public void setStatusCode(int statusCode) {
-		this.statusCode = statusCode;
-	}
-
 	public String getContentType() {
 		return contentType == null ? "" : contentType;
-	}
-
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
-	}
-
-	public Header[] getHeaders() {
-		return headers;
 	}
 
 	public void setHeaders(Header[] headers) {
@@ -51,14 +38,6 @@ public class ResponseHolder {
 
 		// 获取cookie
 		this.cookies = this.cookies();
-	}
-
-	protected Map<String, Cookie> getCookies() {
-		return cookies;
-	}
-
-	protected void setCookies(Map<String, Cookie> cookies) {
-		this.cookies = cookies;
 	}
 
 	public String cookieValue(String name) {
@@ -94,6 +73,7 @@ public class ResponseHolder {
 		return cookies;
 	}
 
+	@Data
 	public static class Cookie {
 
 		private String name;
@@ -108,27 +88,6 @@ public class ResponseHolder {
 			super();
 			this.name = name;
 			this.value = value;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getValue() {
-			return value;
-		}
-
-		public void setValue(String value) {
-			this.value = value;
-		}
-
-		@Override
-		public String toString() {
-			return "Cookie [name=" + name + ", value=" + value + "]";
 		}
 	}
 }

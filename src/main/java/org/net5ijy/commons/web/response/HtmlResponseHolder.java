@@ -2,8 +2,13 @@ package org.net5ijy.commons.web.response;
 
 import java.util.Arrays;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.apache.http.Header;
 
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class HtmlResponseHolder extends ResponseHolder {
 
 	private String content;
@@ -12,17 +17,8 @@ public class HtmlResponseHolder extends ResponseHolder {
 		super();
 	}
 
-	public HtmlResponseHolder(int statusCode, String contentType,
-			Header[] headers, String content) {
+	public HtmlResponseHolder(int statusCode, String contentType, Header[] headers, String content) {
 		super(statusCode, contentType, headers);
-		this.content = content;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
 		this.content = content;
 	}
 
